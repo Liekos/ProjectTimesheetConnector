@@ -1,0 +1,33 @@
+{
+  "id": "ef51ffef-c42b-4acb-adf9-d780285b15be",
+  "name": "Project Timesheet Connector",
+  "publisher": "Moeller DEV",
+  "version": "1.0.0.0",
+  "brief": "Custom API pages for exchanging projects, resources and time entries with an external timesheet service.",
+  "description": "Exposes projects, project tasks, resources and work types through custom API pages and receives time entries as project journal lines. Posting is done manually in Business Central.",
+  "privacyStatement": "",
+  "EULA": "",
+  "help": "",
+  "url": "",
+  "logo": "",
+  "dependencies": [],
+  "screenshots": [],
+  "platform": "29.0.0.0",
+  "application": "29.0.0.0",
+  "idRanges": [
+    {
+      "from": 60100,
+      "to": 60199
+    }
+  ],
+  "resourceExposurePolicy": {
+    "allowDebugging": true,
+    "allowDownloadingSource": true,
+    "includeSourceInSymbolFile": true
+  },
+  "runtime": "18.0",
+  "target": "Cloud",
+  "features": [
+    "NoImplicitWith"
+  ]
+}

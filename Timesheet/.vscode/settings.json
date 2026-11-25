@@ -1,0 +1,10 @@
+{
+    "CRS.ObjectNamePrefix": "MDV ",
+    "CRS.ObjectNameSuffix": " TSC",
+    "al.enableCodeAnalysis": true,
+    "al.codeAnalyzers": [
+        "${CodeCop}",
+        "${UICop}",
+        "${PerTenantExtensionCop}"
+    ]
+}

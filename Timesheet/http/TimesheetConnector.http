@@ -1,0 +1,69 @@
+### Timesheet Connector API - REST Client examples
+# Requires a .env file next to this file (do not commit it) with:
+#   TENANT_ID=9de310b9-2ac8-46c5-8b8a-94389476dae6
+#   CLIENT_ID=8ddca68c-f3df-4a63-ae5f-95a4b86115e5
+#   CLIENT_SECRET=<your-client-secret>
+#   BC_ENVIRONMENT=test
+#   COMPANY_ID=...
+
+@tenantId = {{$dotenv TENANT_ID}}
+@environment = {{$dotenv BC_ENVIRONMENT}}
+@companyId = {{$dotenv COMPANY_ID}}
+@baseUrl = https://api.businesscentral.dynamics.com/v2.0/{{tenantId}}/{{environment}}/api/soeren/timesheet/v1.0/companies({{companyId}})
+
+### Get access token (client credentials / S2S)
+# @name token
+POST https://login.microsoftonline.com/{{tenantId}}/oauth2/v2.0/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=client_credentials
+&client_id={{$dotenv CLIENT_ID}}
+&client_secret={{$dotenv CLIENT_SECRET}}
+&scope=https://api.businesscentral.dynamics.com/.default
+
+###
+@accessToken = {{token.response.body.access_token}}
+
+### Projects with project tasks
+GET {{baseUrl}}/projects?$expand=projectTasks
+Authorization: Bearer {{accessToken}}
+
+### Project tasks
+GET {{baseUrl}}/projectTasks
+Authorization: Bearer {{accessToken}}
+
+### Resources
+GET {{baseUrl}}/resources
+Authorization: Bearer {{accessToken}}
+
+### Work types
+GET {{baseUrl}}/workTypes
+Authorization: Bearer {{accessToken}}
+
+### Projects changed since last run
+GET {{baseUrl}}/projects?$filter=lastModifiedDateTime gt 2026-11-01T00:00:00Z
+Authorization: Bearer {{accessToken}}
+
+### Resources changed since last run
+GET {{baseUrl}}/resources?$filter=lastModifiedDateTime gt 2026-11-01T00:00:00Z
+Authorization: Bearer {{accessToken}}
+
+### Create time entry
+POST {{baseUrl}}/timeEntries
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+    "externalId": "TS-0001",
+    "projectNumber": "J00010",
+    "projectTaskNumber": "1010",
+    "resourceNumber": "LINDA",
+    "workTypeCode": "",
+    "postingDate": "2026-11-20",
+    "quantity": 7.5,
+    "description": "Workshop with customer"
+}
+
+### Check that the time entry was created
+GET {{baseUrl}}/timeEntries?$filter=externalId eq 'TS-0001'
+Authorization: Bearer {{accessToken}}
